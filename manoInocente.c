@@ -6,8 +6,6 @@
 
 #define LONG_MAX_CADENA_ENTRADA 255
 
-typedef enum { FALSE, TRUE } bool;
-
 int num_max = 0;
 char cadena_inelegibles[LONG_MAX_CADENA_ENTRADA];
 int numero = 0;
@@ -21,7 +19,7 @@ int cmpfunc (const void * a, const void * b)
 }
 
 void muestra_menu() {
-	printf("Elija el número máximo: ");
+	printf("Elija el número máximo (inferior a 255): ");
 	scanf("%d", &num_max);
 	printf("Introduzca los números inelegibles separados por comas \",\": ");
 	scanf("%s", &cadena_inelegibles);
@@ -46,13 +44,12 @@ int genera_num_aleatorio() {
 	int aleatorio = 0;
 	int * encontrado;
 
-	aleatorio = rand() % num_max + 1;
-	encontrado = lfind(&aleatorio, inelegibles, &tamanho_inelegibles, sizeof(int), cmpfunc);
-	while (encontrado != NULL) {
-		printf("\nResultado inelegible: %d", *encontrado);
+	do {
 		aleatorio = rand() % num_max + 1;
 		encontrado = lfind(&aleatorio, inelegibles, &tamanho_inelegibles, sizeof(int), cmpfunc);
-	}
+	} while (encontrado != NULL);
+	inelegibles[tamanho_inelegibles] = aleatorio;
+	tamanho_inelegibles++;
 
 	return aleatorio;
 }
@@ -69,17 +66,19 @@ int main (int argc, char** argv) {
 	
 	crea_array_inelegibles();
 
-	printf ("\nNúmeros inelegibles:");
-	for (i = 0; i < tamanho_inelegibles; i++) {
-		printf(" %d", inelegibles[i]);
-	}
-
 	do {
 		numero = genera_num_aleatorio();
 		printf ("\nEl elegido es: %d", numero);
 		printf ("\n¿Desea volver a elegir otro número? (S/N) ");
 		scanf("%s", &seguimos);
-	} while (seguimos == 's' || seguimos == 'S' || seguimos == 'y' || seguimos == 'Y');
+	} while ((seguimos == 's' 
+				|| seguimos == 'S' 
+				|| seguimos == 'y' 
+				|| seguimos == 'Y') 
+				&& tamanho_inelegibles < num_max);
+	if (tamanho_inelegibles == num_max) {
+		printf ("Lo siento, ya no quedan más números no repetidos por salir.\n");
+	}
 
 	return 0;
 }
