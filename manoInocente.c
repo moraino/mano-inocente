@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <string.h>
+#include <search.h>
 
 #define LONG_MAX_CADENA_ENTRADA 255
 
@@ -11,7 +12,7 @@ int numero = 0;
 int inelegibles[LONG_MAX_CADENA_ENTRADA];
 int tamanho_inelegibles = 0;
 
-// Función de comparación de enteros para la función qsort
+// Función de comparación de enteros para la función de búsqueda en el array de inelegibles
 int cmpfunc (const void * a, const void * b)
 {
    return ( *(int*)a - *(int*)b );
@@ -37,14 +38,19 @@ void crea_array_inelegibles() {
 		token = strtok_r(NULL, ",", &puntero);
 	}
 	tamanho_inelegibles = i;
-
-	qsort(inelegibles, tamanho_inelegibles, sizeof(int), cmpfunc);
 }
 
 int genera_num_aleatorio() {
 	int aleatorio = 0;
+	int * encontrado;
 
 	aleatorio = rand() % num_max + 1;
+	encontrado = lfind(&aleatorio, inelegibles, &tamanho_inelegibles, sizeof(int), cmpfunc);
+	while (encontrado != NULL) {
+		printf("\nResultado inelegible: %d", *encontrado);
+		aleatorio = rand() % num_max + 1;
+		encontrado = lfind(&aleatorio, inelegibles, &tamanho_inelegibles, sizeof(int), cmpfunc);
+	}
 
 	return aleatorio;
 }
