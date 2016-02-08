@@ -9,6 +9,7 @@ int num_max = 0;
 char cadena_inelegibles[LONG_MAX_CADENA_ENTRADA];
 int numero = 0;
 int inelegibles[LONG_MAX_CADENA_ENTRADA];
+int tamanho_inelegibles = 0;
 
 void muestra_menu() {
 	printf("Elija el número máximo: ");
@@ -27,24 +28,38 @@ void crea_array_inelegibles() {
 	while (token != NULL) {
 		//printf ("\n%d", strtol(token, &puntero_strtol, 10)); 
 		inelegibles[i] = strtol(token, &puntero_strtol, 10);
-		token = strtok_r(NULL, ",", &puntero);
 		i++;
+		token = strtok_r(NULL, ",", &puntero);
 	}
+	tamanho_inelegibles = i;
 }
 
-void genera_num_aleatorio() {
-	numero = rand() % (num_max + 1);
+int genera_num_aleatorio() {
+	int aleatorio = 0;
+
+	aleatorio = rand() % num_max + 1;
+
+	return aleatorio;
 }
 
 int main (int argc, char** argv) {
+	int i = 0;
+
 	// Generamos la semilla
 	srand(time(NULL));
 
 	muestra_menu();
 	printf ("Número máximo: %d", num_max);
-	printf ("\nNúmeros inelegibles: %s", cadena_inelegibles);
+	
 	crea_array_inelegibles();
-	genera_num_aleatorio();
+
+	printf ("\nTamaño del array de inelegibles: %d", tamanho_inelegibles);
+	printf ("\nNúmeros inelegibles: ");
+	for (i = 0; i < tamanho_inelegibles; i++) {
+		printf("\n%d", inelegibles[i]);
+	}
+	numero = genera_num_aleatorio();
+
 	printf ("\nEl elegido es: %d", numero);
 	printf ("\n");
 
