@@ -19,8 +19,10 @@ int cmpfunc (const void * a, const void * b)
 }
 
 void muestra_menu() {
-	printf("Elija el número máximo (inferior a 255): ");
-	scanf("%d", &num_max);
+	do {
+		printf("Elija el número máximo (inferior a 256): ");
+		scanf("%d", &num_max);
+	} while (num_max < 1 || num_max > LONG_MAX_CADENA_ENTRADA);
 	printf("Introduzca los números inelegibles separados por comas \",\": ");
 	scanf("%s", &cadena_inelegibles);
 }
