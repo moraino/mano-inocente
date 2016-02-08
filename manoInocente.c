@@ -6,6 +6,8 @@
 
 #define LONG_MAX_CADENA_ENTRADA 255
 
+typedef enum { FALSE, TRUE } bool;
+
 int num_max = 0;
 char cadena_inelegibles[LONG_MAX_CADENA_ENTRADA];
 int numero = 0;
@@ -57,6 +59,7 @@ int genera_num_aleatorio() {
 
 int main (int argc, char** argv) {
 	int i = 0;
+	char seguimos;
 
 	// Generamos la semilla
 	srand(time(NULL));
@@ -66,15 +69,17 @@ int main (int argc, char** argv) {
 	
 	crea_array_inelegibles();
 
-	printf ("\nTamaño del array de inelegibles: %d", tamanho_inelegibles);
-	printf ("\nNúmeros inelegibles: ");
+	printf ("\nNúmeros inelegibles:");
 	for (i = 0; i < tamanho_inelegibles; i++) {
-		printf("\n%d", inelegibles[i]);
+		printf(" %d", inelegibles[i]);
 	}
-	numero = genera_num_aleatorio();
 
-	printf ("\nEl elegido es: %d", numero);
-	printf ("\n");
+	do {
+		numero = genera_num_aleatorio();
+		printf ("\nEl elegido es: %d", numero);
+		printf ("\n¿Desea volver a elegir otro número? (S/N) ");
+		scanf("%s", &seguimos);
+	} while (seguimos == 's' || seguimos == 'S' || seguimos == 'y' || seguimos == 'Y');
 
 	return 0;
 }
