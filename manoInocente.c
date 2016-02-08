@@ -21,11 +21,12 @@ void crea_array_inelegibles() {
 	char * token; //palabra extraída de la cadena de inelegibles
 	int i = 0;
 	char * puntero; //puntero al inicio de la siguiente palabra de la cadena de inelegibles
+	char * puntero_strtol; //puntero necesario para usar la función strtol
 
 	token = strtok_r(cadena_inelegibles, ",", &puntero);
 	while (token != NULL) {
-		//inelegibles[i] = scanf("%d", &token);
-		printf ("\n%d", strtol(token);
+		//printf ("\n%d", strtol(token, &puntero_strtol, 10)); 
+		inelegibles[i] = strtol(token, &puntero_strtol, 10);
 		token = strtok_r(NULL, ",", &puntero);
 		i++;
 	}
