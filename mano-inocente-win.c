@@ -21,10 +21,10 @@ int cmpfunc (const void * a, const void * b)
 
 void muestra_menu() {
 	do {
-		printf("Elija el número máximo (inferior a 256): ");
+		printf("Select the maximum number (less than 256): ");
 		scanf("%d", &num_max);
 	} while (num_max < 1 || num_max > LONG_MAX_CADENA_ENTRADA);
-	printf("Introduzca los números inelegibles separados por comas \",\": ");
+	printf("Write the non-elegible numbers separated by comma \",\": ");
 	scanf("%s", &cadena_inelegibles);
 }
 
@@ -65,14 +65,13 @@ int main (int argc, char** argv) {
 	srand(time(NULL));
 
 	muestra_menu();
-	printf ("Número máximo: %d", num_max);
 	
 	crea_array_inelegibles();
 
 	do {
 		numero = genera_num_aleatorio();
-		printf ("\nEl elegido es: %d", numero);
-		printf ("\n¿Desea volver a elegir otro número? (S/N) ");
+		printf ("\nThe chosen number is: %d", numero);
+		printf ("\nWould you like to choose another number? (Y/N) ");
 		scanf("%s", &seguimos);
 	} while ((seguimos == 's' 
 				|| seguimos == 'S' 
@@ -80,7 +79,7 @@ int main (int argc, char** argv) {
 				|| seguimos == 'Y') 
 				&& tamanho_inelegibles < num_max);
 	if (tamanho_inelegibles == num_max) {
-		printf ("Lo siento, ya no quedan más números no repetidos por salir.\n");
+		printf ("Sorry, but there are no more numbers.\n");
 	}
 
 	return 0;
