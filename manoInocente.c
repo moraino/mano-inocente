@@ -11,6 +11,12 @@ int numero = 0;
 int inelegibles[LONG_MAX_CADENA_ENTRADA];
 int tamanho_inelegibles = 0;
 
+// Función de comparación de enteros para la función qsort
+int cmpfunc (const void * a, const void * b)
+{
+   return ( *(int*)a - *(int*)b );
+}
+
 void muestra_menu() {
 	printf("Elija el número máximo: ");
 	scanf("%d", &num_max);
@@ -25,13 +31,14 @@ void crea_array_inelegibles() {
 	char * puntero_strtol; //puntero necesario para usar la función strtol
 
 	token = strtok_r(cadena_inelegibles, ",", &puntero);
-	while (token != NULL) {
-		//printf ("\n%d", strtol(token, &puntero_strtol, 10)); 
+	while (token != NULL) { 
 		inelegibles[i] = strtol(token, &puntero_strtol, 10);
 		i++;
 		token = strtok_r(NULL, ",", &puntero);
 	}
 	tamanho_inelegibles = i;
+
+	qsort(inelegibles, tamanho_inelegibles, sizeof(int), cmpfunc);
 }
 
 int genera_num_aleatorio() {
